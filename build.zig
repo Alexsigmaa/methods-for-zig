@@ -14,6 +14,13 @@ pub fn build(b: *std.Build) void {
         .optimize = optimize,
     });
 
+    // Expose the methods module for @import("methods")
+    _ = b.addModule("methods", .{
+        .root_source_file = b.path("src/lib.zig"),
+        .target = target,
+        .optimize = optimize,
+    });
+
     // This command makes the library available to other packages.
     b.installArtifact(lib);
 
