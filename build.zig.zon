@@ -1,0 +1,19 @@
+// methods/build.zig.zon
+.{
+    .name = "methods",
+    .version = "0.1.0",
+
+    // This field is optional, but good practice.
+    .minimum_zig_version = "0.12.0",
+
+    // In the future, dependencies on other packages would go here.
+    .dependencies = .{},
+
+    .paths = .{
+        "build.zig",
+        "build.zig.zon",
+        "LICENSE",
+        "README.md",
+        "src",
+    },
+}
