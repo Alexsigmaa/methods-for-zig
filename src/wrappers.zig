@@ -15,15 +15,15 @@ pub const Wrapper = union(enum) {
 
 pub fn Wrap(comptime T: type, value: T) Wrapper {
     const info = @typeInfo(T);
-    if (info == .Int) {
-        return Wrapper{ .int = IntWrapper_i64{ .value = @as(i64, value) } };
-    } else if (info == .Float) {
-        return Wrapper{ .float = FloatWrapper_f64{ .value = @as(f64, value) } };
-    } else if (info == .Slice and info.Slice.child == u8) {
-        return Wrapper{ .string = StringWrapper{ .value = value } };
-    } else {
-        return Wrapper{ .generic = GenericWrapper_bool{ .value = @as(bool, value) } };
-    }
+    return switch (info) {
+        .Int => Wrapper{ .int = IntWrapper_i64{ .value = @as(i64, value) } },
+        .Float => Wrapper{ .float = FloatWrapper_f64{ .value = @as(f64, value) } },
+        .Pointer => |ptr| if (ptr.child == u8 and ptr.size == .Slice)
+            Wrapper{ .string = StringWrapper{ .value = value } }
+        else
+            Wrapper{ .generic = GenericWrapper_bool{ .value = @as(bool, value) } },
+        else => Wrapper{ .generic = GenericWrapper_bool{ .value = @as(bool, value) } },
+    };
 }
 
 pub fn IntWrapper(comptime T: type) type {
