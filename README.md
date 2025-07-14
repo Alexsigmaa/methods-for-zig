@@ -74,7 +74,26 @@ Add this package to your `build.zig.zon` dependencies and import it in your Zig 
 const methods = @import("methods");
 ```
 
+### Using as a Dependency from GitHub
+To use this package in your own project, add it to your `build.zig.zon` dependencies like this:
+
+```zig
+.{
+    .name = "myproject",
+    .version = "0.1.0",
+    .dependencies = .{
+        .methods = .{
+            .url = "https://github.com/yourusername/methods",
+            // Optionally specify a tag, branch, or commit:
+            // .tag = "v0.1.0",
+            // .branch = "main",
+            // .commit = "abcdef1234567890",
+        },
+    },
+}
+```
+
+Replace `yourusername` and the repo name as appropriate. You can specify a tag, branch, or commit for versioning.
+
 ## Notes
-- For methods that require an allocator, use `std.heap.page_allocator` or your own allocator.
-- All wrappers expose the `.value` field for the underlying value.
-- See the package tests in `src/lib.zig` for more usage examples.
+- For methods that require an allocator, use `
